@@ -87,12 +87,18 @@ function tail_mplayer() {
   tail -n+0 --pid=$mplayerpid -f $mplayerlog 2> /dev/null | while read line; do
     [[ "$line" == "ICY Info:"* ]] && {
       title=$(echo $line | cut -f2 -d\')
-      echo "$(echo_green now playing): $title"
+      echo "$(echo_green Now Playing): $title"
     }
     [[ "$line" == "Name "* ]] && {
       name=$(echo $line | cut -f2- -d\:)
-      echo "$(echo_green streaming): $name"
+      echo "$(echo_green Streaming): $name"
     }
+
+    #Putting song title in the terminal title bar
+    PS1=$
+    PROMPT_COMMAND=
+    echo -en "\033]0;$title\a"
+
   done
 }
 
